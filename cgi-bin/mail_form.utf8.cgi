@@ -14,61 +14,61 @@ $msg     = $in{msg};
 $comfirm = $in{comfirm};
 
 print &PrintHeader;
-print &HtmlTop('ƒ[ƒ‹ƒtƒH[ƒ€');
+print &HtmlTop('ãƒ¡ãƒ¼ãƒ«ãƒ•ã‚©ãƒ¼ãƒ ');
 
 if (&MethPost) {
 
-    # POST‚Ìê‡
+    # POSTã®å ´åˆ
     $html = <<"HTML";
 <table>
     <tr>
-        <td align="right">‚¨–¼‘OF</td>
+        <td align="right">ãŠåå‰ï¼š</td>
         <td>$name</td>
     </tr>
     <tr>
-        <td align="right">ƒ[ƒ‹ƒAƒhƒŒƒXF</td>
+        <td align="right">ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ï¼š</td>
         <td>$email</td>
     </tr>
     <tr>
-        <td align="right">ƒƒbƒZ[ƒWF</td>
+        <td align="right">ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ï¼š</td>
         <td>$msg</td>
     </tr>
 </table>
 HTML
     if ($comfirm) {
 
-        # Šm”Fƒ‚[ƒh
+        # ç¢ºèªãƒ¢ãƒ¼ãƒ‰
 
-        # ’l‚ÌŠm”F
+        # å€¤ã®ç¢ºèª
         @errors = ();
 
-        # –¼‘O
+        # åå‰
         if (length $name < 1) {
-            push @errors, '‚¨–¼‘O‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢';
+            push @errors, 'ãŠåå‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„';
         }
 
-        # ƒ[ƒ‹ƒAƒhƒŒƒX
+        # ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹
         if (length $email < 1) {
-            push @errors, 'ƒ[ƒ‹ƒAƒhƒŒƒX‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢';
+            push @errors, 'ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„';
         }
         elsif ($email !~ /^[^@]+@[^@]+$/) {
-            push @errors, 'ƒ[ƒ‹ƒAƒhƒŒƒX‚ð³‚µ‚­“ü—Í‚µ‚Ä‚­‚¾‚³‚¢';
+            push @errors, 'ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æ­£ã—ãå…¥åŠ›ã—ã¦ãã ã•ã„';
         }
 
-        # ƒƒbƒZ[ƒW
+        # ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
         if (length $msg < 1) {
-            push @errors, 'ƒƒbƒZ[ƒW‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢';
+            push @errors, 'ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„';
         }
 
-        # ƒGƒ‰[‚ª‚ ‚ê‚Î•\Ž¦‚µ‚ÄI—¹
+        # ã‚¨ãƒ©ãƒ¼ãŒã‚ã‚Œã°è¡¨ç¤ºã—ã¦çµ‚äº†
         if (@errors) {
             &print_form(@errors);
             exit;
         }
 
-        # HTMLƒŒƒXƒ|ƒ“ƒX
+        # HTMLãƒ¬ã‚¹ãƒãƒ³ã‚¹
         print <<"HTML";
-<h2>‘—M“à—e‚ðŠm”F‚µ‚Ä‚­‚¾‚³‚¢</h2>
+<h2>é€ä¿¡å†…å®¹ã‚’ç¢ºèªã—ã¦ãã ã•ã„</h2>
 HTML
         print $html;
         print <<"HTML";
@@ -79,7 +79,7 @@ HTML
                 <input type="hidden" name="name" value="$name">
                 <input type="hidden" name="email" value="$email">
                 <input type="hidden" name="msg" value="$msg">
-                <input type="submit" value="‘—M‚·‚é">
+                <input type="submit" value="é€ä¿¡ã™ã‚‹">
             </form>
         </td>
         <td>
@@ -87,7 +87,7 @@ HTML
                 <input type="hidden" name="name" value="$name">
                 <input type="hidden" name="email" value="$email">
                 <input type="hidden" name="msg" value="$msg">
-                <input type="submit" value="C³‚·‚é">
+                <input type="submit" value="ä¿®æ­£ã™ã‚‹">
             </form>
         </td>
     </tr>
@@ -96,15 +96,15 @@ HTML
         print &HtmlBot;
     }
     else {
-        # ‘—Mƒ‚[ƒh
+        # é€ä¿¡ãƒ¢ãƒ¼ãƒ‰
 
-        # ƒ[ƒ‹‘—M
+        # ãƒ¡ãƒ¼ãƒ«é€ä¿¡
         $to      = 'nqou.net@gmail.com';
         $subject = 'mail_form';
         $body    = <<"BODY";
-‚¨–¼‘O@@@@F $name
-ƒ[ƒ‹ƒAƒhƒŒƒXF $email
-ƒƒbƒZ[ƒW@@F $msg
+ãŠåå‰ã€€ã€€ã€€ã€€ï¼š $name
+ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ï¼š $email
+ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã€€ã€€ï¼š $msg
 BODY
         $sendmail_cmd = '/usr/sbin/sendmail';
         open(MAIL, "| $sendmail_cmd -t -i") || die 'sendmail error';
@@ -117,30 +117,30 @@ BODY
         print MAIL "$body";
         close(MAIL);
 
-        # ƒƒOƒtƒ@ƒCƒ‹‚ÉŽc‚·
+        # ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã«æ®‹ã™
         $log = "$name<>$email<>$msg";
         open(FILE, '>> mail_form.log') || die 'file error';
         print FILE "$log\n";
         close(FILE);
 
-        # HTMLƒŒƒXƒ|ƒ“ƒX
+        # HTMLãƒ¬ã‚¹ãƒãƒ³ã‚¹
         print <<"HTML";
-<h2>ˆÈ‰º‚Ì“à—e‚Å‘—M‚µ‚Ü‚µ‚½</h2>
+<h2>ä»¥ä¸‹ã®å†…å®¹ã§é€ä¿¡ã—ã¾ã—ãŸ</h2>
 HTML
         print $html;
         print <<"HTML";
-<p>‚ ‚è‚ª‚Æ‚¤‚²‚´‚¢‚Ü‚µ‚½</p>
-<p><a href="./mail_form.cgi">ƒgƒbƒv‚Ö–ß‚é</a></p>
+<p>ã‚ã‚ŠãŒã¨ã†ã”ã–ã„ã¾ã—ãŸ</p>
+<p><a href="./mail_form.cgi">ãƒˆãƒƒãƒ—ã¸æˆ»ã‚‹</a></p>
 HTML
         print &HtmlBot;
     }
 }
 else {
-    # GET‚Ìê‡
+    # GETã®å ´åˆ
     &print_form;
 }
 
-# ƒtƒH[ƒ€‚ð•\Ž¦‚·‚é
+# ãƒ•ã‚©ãƒ¼ãƒ ã‚’è¡¨ç¤ºã™ã‚‹
 sub print_form {
     if (@_) {
         foreach (@_) {
@@ -154,25 +154,25 @@ HTML
     <input type="hidden" name="comfirm" value="1">
     <table>
         <tr>
-            <td align="right">‚¨–¼‘OF</td>
+            <td align="right">ãŠåå‰ï¼š</td>
             <td><input type="text" name="name" size="30" value="$name"></td>
         </tr>
         <tr>
-            <td align="right">ƒ[ƒ‹ƒAƒhƒŒƒXF</td>
+            <td align="right">ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ï¼š</td>
             <td><input type="text" name="email" size="30" value="$email"></td>
         </tr>
         <tr>
-            <td align="right">ƒƒbƒZ[ƒWF</td>
+            <td align="right">ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ï¼š</td>
             <td><textarea name="msg" rows="10" cols="80">$msg</textarea></td>
         </tr>
     </table>
     <table>
         <tr>
             <td>
-                <input type="submit" value="‘—M“à—e‚ðŠm”F‚·‚é">
+                <input type="submit" value="é€ä¿¡å†…å®¹ã‚’ç¢ºèªã™ã‚‹">
             </td>
             <td>
-                <input type="reset" value="ƒŠƒZƒbƒg">
+                <input type="reset" value="ãƒªã‚»ãƒƒãƒˆ">
             </td>
         </tr>
     </table>
