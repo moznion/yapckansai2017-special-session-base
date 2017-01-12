@@ -1,0 +1,38 @@
+use Path::Tiny qw(path tempdir);
+use Capture::Tiny qw(capture);
+use App::scan_prereqs_cpanfile;
+
+desc 'run mail.pl';
+task run => sub {
+    _carton_install();
+    sh qw{carton exec -- perl main.pl};
+};
+
+desc 'install perl modules';
+task install => sub {
+    sh q(cpanm --with-recommends --with-develop --with-all-features --installdeps .);
+};
+
+namespace generate => sub {
+    desc 'generate cpanfile';
+    task cpanfile => \&_generate_cpanfile;
+};
+
+namespace carton => sub {
+    desc 'carton install';
+    task install => \&_carton_install;
+};
+
+task default => sub { sh q{daiku -T} };
+
+sub _generate_cpanfile {
+    my $stdout = capture {
+        sh q(scan-prereqs-cpanfile --ignore=public,templates,var);
+    };
+    path('cpanfile')->spew($stdout);
+}
+
+sub _carton_install {
+    _generate_cpanfile();
+    sh qw(carton install);
+}
