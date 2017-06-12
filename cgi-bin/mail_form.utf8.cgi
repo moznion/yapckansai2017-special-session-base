@@ -106,7 +106,7 @@ HTML
 メールアドレス： $email
 メッセージ　　： $msg
 BODY
-        $sendmail_cmd = '/usr/sbin/sendmail';
+        $sendmail_cmd = $ENV{SENDMAIL_MOCK} || '/usr/sbin/sendmail';
         open(MAIL, "| $sendmail_cmd -t -i") || die 'sendmail error';
         print MAIL "From: $email\n";
         print MAIL "To: $to\n";
