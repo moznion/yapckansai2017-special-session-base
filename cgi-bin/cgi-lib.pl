@@ -295,7 +295,7 @@ END_MULTIPART
 # Returns the magic line which tells WWW that we're an HTML document
 
 sub PrintHeader {
-  return "Content-type: text/html\n\n";
+  return "Content-type: text/html; charset=UTF-8\n\n";
 }
 
 
