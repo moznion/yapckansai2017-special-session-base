@@ -1,6 +1,8 @@
 requires 'Data::Printer';
 requires 'feature';
 requires 'Plack';
+requires 'Mouse';
+requires 'Log::Minimal';
 
 # TODO remove me when kicking out cgi successfully! {{{
 requires 'CGI::Emulate::PSGI';

@@ -2,6 +2,8 @@
 require './cgi-lib.pl';
 require './jcode.pl';
 
+use SimpleMail::Mail;
+
 {
     local (*cgi_input);
     &ReadParse(*cgi_input);
@@ -97,31 +99,11 @@ HTML
     }
     else {
         # 送信モード
-
-        # メール送信
-        $to      = 'nqou.net@gmail.com';
-        $subject = 'mail_form';
-        $body    = <<"BODY";
-お名前　　　　： $name
-メールアドレス： $email
-メッセージ　　： $msg
-BODY
-        $sendmail_cmd = $ENV{SENDMAIL_MOCK} || '/usr/sbin/sendmail';
-        open(MAIL, "| $sendmail_cmd -t -i") || die 'sendmail error';
-        print MAIL "From: $email\n";
-        print MAIL "To: $to\n";
-        print MAIL "Subject: $subject\n";
-        print MAIL "Content-Transfer-Encoding: 7bit\n";
-        print MAIL "Content-type: text/plain;charset=\"ISO-2022-JP\"\n\n";
-        &jcode::convert(\$body, 'jis');
-        print MAIL "$body";
-        close(MAIL);
-
-        # ログファイルに残す
-        $log = "$name<>$email<>$msg";
-        open(FILE, '>> mail_form.log') || die 'file error';
-        print FILE "$log\n";
-        close(FILE);
+        SimpleMail::Mail->new(
+            name  => $name,
+            email => $email,
+            msg   => $msg,
+        )->send;
 
         # HTMLレスポンス
         print <<"HTML";

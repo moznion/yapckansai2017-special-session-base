@@ -50,7 +50,7 @@ subtest 'should pass payload of mail to sendmail (mock) successfully ' => sub {
 
         open my $fh, '<', "$FindBin::Bin/../devtools/sendmail_mock.log";
         my $mail_content = do { local $/; <$fh> };
-        like $mail_content, qr/-t\n-i\nFrom: moznion[@]gmail[.]com\nTo: nqou[.]net[@]gmail[.]com\nSubject: mail_form\nContent-Transfer-Encoding: 7bit\nContent-type: text\/plain;charset="ISO-2022-JP"/, 'Mail contet is valid';
+        like $mail_content, qr/-t\n-i\nFrom: moznion[@]gmail[.]com\nTo: moznion[@]gmail[.]com\nSubject: mail_form\nContent-Transfer-Encoding: 7bit\nContent-type: text\/plain;charset="ISO-2022-JP"/, 'Mail contet is valid';
     };
 };
 
