@@ -1,10 +1,16 @@
 use strict;
 use warnings;
 use utf8;
+
+use FindBin;
+use lib "$FindBin::Bin/lib";
+
 use Plack::Builder;
-use Plack::App::WrapCGI;
+use SimpleMail::Application;
+
+my $app = SimpleMail::Application->new->to_app;
 
 builder {
-    mount "/mail_form.cgi" => Plack::App::WrapCGI->new(script => './cgi-bin/mail_form.utf8.cgi', execute => 1)->to_app;
+    mount '/' => $app;
 };
 

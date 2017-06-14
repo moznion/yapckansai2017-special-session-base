@@ -17,7 +17,7 @@ subtest 'should pass payload of mail to sendmail (mock) successfully ' => sub {
 
     my $mech = Test::WWW::Mechanize::PSGI->new(app => $app);
 
-    $mech->get_ok('/mail_form.cgi');
+    $mech->get_ok('/new');
 
     $mech->title_is('メールフォーム');
 
