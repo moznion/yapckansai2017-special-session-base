@@ -4,9 +4,9 @@ use warnings;
 use utf8;
 use feature qw/state/;
 use Router::Boom::Method;
-use Plack::Response;
 
 use SimpleMail::Application::Controller; # XXX 本当はもっとやりようがある!
+use SimpleMail::Presentation::ExceptionalRenderer;
 
 use Mouse;
 
@@ -25,7 +25,7 @@ sub _build_router {
     $r->add('GET', '/confirm', ['SimpleMail::Application::Controller', 'confirm_page']);
     $r->add('GET', '/sent',    ['SimpleMail::Application::Controller', 'sent_page']);
 
-    $r->add('POST', '/new', ['SimpleMail::Application::Controller', 'receive_mail_content']);
+    $r->add('POST', '/new',  ['SimpleMail::Application::Controller', 'receive_mail_content']);
     $r->add('POST', '/mail', ['SimpleMail::Application::Controller', 'send_mail']);
 
     return $r;
@@ -38,8 +38,7 @@ sub dispatch {
     my ($dst, $captured) = $self->router->match($req->method, $req->path_info);
     unless ($dst) {
         # 404
-        state $not_found_res = $self->_not_found_response;
-        return $not_found_res;
+        return SimpleMail::Presentation::ExceptionalRenderer->render_not_found_error;
     }
 
     my $controller = $self->_determine_controller($dst);
@@ -66,15 +65,6 @@ sub _determine_method {
     my ($self, $dst) = @_;
 
     return $dst->[1];
-}
-
-sub _not_found_response {
-    my ($self) = @_;
-
-    my $not_found_res = Plack::Response->new(404);
-    $not_found_res->headers([ 'Content-Type' => 'text/html; charset=UTF-8' ]);
-    $not_found_res->body('404 Not found');
-    return $not_found_res->finalize;
 }
 
 1;
