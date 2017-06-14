@@ -2,6 +2,7 @@ package SimpleMail::Mail;
 use strict;
 use warnings;
 use utf8;
+use Encode qw/encode_utf8/;
 use Log::Minimal;
 
 use SimpleMail::Mail::Infra::Sender::Sendmail;
@@ -38,7 +39,7 @@ sub send {
 
 sub _log {
     my ($self) = @_;
-    Log::Minimal::infof("%s<>%s<>%s", $self->name, $self->email, $self->msg);
+    Log::Minimal::infof("%s<>%s<>%s", encode_utf8($self->name), encode_utf8($self->email), encode_utf8($self->msg));
 }
 
 1;

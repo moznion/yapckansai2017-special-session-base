@@ -7,7 +7,7 @@ use constant {
     TITLE => 'メールフォーム',
 };
 
-use Encode qw/encode_utf8 decode_utf8/;
+use Encode qw/decode_utf8/;
 use FormValidator::Lite qw/Email/;
 use URI;
 
