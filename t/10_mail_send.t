@@ -5,16 +5,19 @@ use Encode qw/encode/;
 use FindBin;
 
 use SimpleMail::Mail;
+use SimpleMail::Mail::Infra::Sender::SendmailMock;
 
 use Test::More;
 
-local $ENV{SENDMAIL_MOCK} = "perl $FindBin::Bin/../devtools/sendmail_mock.pl";
+my $log_file = "$FindBin::Bin/../devtools/sendmail_mock.log";
+unlink $log_file;
 
 subtest 'should send mail successfully' => sub {
     my $mail = SimpleMail::Mail->new(
-        name  => 'moznion',
-        email => 'moznion@gmail.com',
-        msg   => 'Hello',
+        name        => 'moznion',
+        email       => 'moznion@gmail.com',
+        msg         => 'Hello',
+        mail_sender => SimpleMail::Mail::Infra::Sender::SendmailMock->new,
     );
 
     $mail->send;
@@ -22,7 +25,7 @@ subtest 'should send mail successfully' => sub {
     my $body = $mail->body;
     my $encoded_body = encode('ISO-2022-JP', $body);
 
-    open my $fh, '<', "$FindBin::Bin/../devtools/sendmail_mock.log";
+    open my $fh, '<', $log_file;
     my $mail_content = do { local $/; <$fh> };
     is $mail_content, "-t\n-i\nFrom: moznion\@gmail.com\nTo: moznion\@gmail.com\nSubject: mail_form\nContent-Transfer-Encoding: 7bit\nContent-type: text/plain;charset=\"ISO-2022-JP\"\n\n$encoded_body", 'Mail contet is valid';
 };

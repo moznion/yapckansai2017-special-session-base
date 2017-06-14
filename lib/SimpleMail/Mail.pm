@@ -8,12 +8,13 @@ use SimpleMail::Mail::Infra::Sender::Sendmail;
 
 use Mouse;
 
-has name    => (is => 'ro', isa => 'Str', required => 1);
-has email   => (is => 'ro', isa => 'Str', required => 1);
-has msg     => (is => 'ro', isa => 'Str', required => 1);
-has to      => (is => 'ro', isa => 'Str', default => 'moznion@gmail.com');
-has subject => (is => 'ro', isa => 'Str', default => 'mail_form');
-has body    => (is => 'ro', isa => 'Str', lazy_build => 1);
+has name        => (is => 'ro', isa => 'Str', required => 1);
+has email       => (is => 'ro', isa => 'Str', required => 1);
+has msg         => (is => 'ro', isa => 'Str', required => 1);
+has to          => (is => 'ro', isa => 'Str', default => 'moznion@gmail.com');
+has subject     => (is => 'ro', isa => 'Str', default => 'mail_form');
+has body        => (is => 'ro', isa => 'Str', lazy_build => 1);
+has mail_sender => (is => 'ro', isa => 'SimpleMail::Mail::Infra::Sender', default => sub { SimpleMail::Mail::Infra::Sender::Sendmail->new } );
 
 no Mouse;
 __PACKAGE__->meta->make_immutable;
@@ -31,7 +32,7 @@ BODY
 sub send {
     my ($self) = @_;
 
-    SimpleMail::Mail::Infra::Sender::Sendmail->new(mail => $self)->send_mail;
+    $self->mail_sender->send_mail($self);
     $self->_log;
 }
 

@@ -10,7 +10,10 @@ use Test::More;
 use Plack::Test;
 use Test::WWW::Mechanize::PSGI;
 
-local $ENV{SENDMAIL_MOCK} = "perl $FindBin::Bin/../devtools/sendmail_mock.pl";
+local $ENV{USE_SENDMAIL_MOCK} = 1;
+
+my $log_file = "$FindBin::Bin/../devtools/sendmail_mock.log";
+unlink $log_file;
 
 subtest 'should pass payload of mail to sendmail (mock) successfully ' => sub {
     my $app = Plack::Util::load_psgi("$FindBin::Bin/../app.psgi");
@@ -48,7 +51,7 @@ subtest 'should pass payload of mail to sendmail (mock) successfully ' => sub {
     subtest 'sent page' => sub {
         $mech->content_like(qr/以下の内容で送信しました/);
 
-        open my $fh, '<', "$FindBin::Bin/../devtools/sendmail_mock.log";
+        open my $fh, '<', $log_file;
         my $mail_content = do { local $/; <$fh> };
         like $mail_content, qr/-t\n-i\nFrom: moznion[@]gmail[.]com\nTo: moznion[@]gmail[.]com\nSubject: mail_form\nContent-Transfer-Encoding: 7bit\nContent-type: text\/plain;charset="ISO-2022-JP"/, 'Mail contet is valid';
     };
