@@ -1,11 +1,11 @@
-package SimpleMail::Mail;
+package SimpleMail::Mailing::Domain::Mail;
 use strict;
 use warnings;
 use utf8;
 use Encode qw/encode_utf8/;
 use Log::Minimal;
 
-use SimpleMail::Mail::Infra::Sender::Sendmail;
+use SimpleMail::Mailing::Infra::Sender::Sendmail;
 
 use Mouse;
 
@@ -15,7 +15,7 @@ has msg         => (is => 'ro', isa => 'Str', required => 1);
 has to          => (is => 'ro', isa => 'Str', default => 'moznion@gmail.com');
 has subject     => (is => 'ro', isa => 'Str', default => 'mail_form');
 has body        => (is => 'ro', isa => 'Str', lazy_build => 1);
-has mail_sender => (is => 'ro', isa => 'SimpleMail::Mail::Infra::Sender', default => sub { SimpleMail::Mail::Infra::Sender::Sendmail->new } );
+has mail_sender => (is => 'ro', isa => 'SimpleMail::Mailing::Domain::Sender', default => sub { SimpleMail::Mailing::Infra::Sender::Sendmail->new } );
 
 no Mouse;
 __PACKAGE__->meta->make_immutable;

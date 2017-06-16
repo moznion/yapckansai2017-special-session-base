@@ -1,7 +1,8 @@
-package SimpleMail::Mail::Infra::Sender;
+package SimpleMail::Mailing::Domain::Sender;
 use strict;
 use warnings;
 use utf8;
+
 use Encode qw/encode/;
 
 use Mouse;

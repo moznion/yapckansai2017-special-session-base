@@ -12,8 +12,8 @@ use FormValidator::Lite qw/Email/;
 use URI;
 
 use SimpleMail::Presentation::HtmlRenderer;
-use SimpleMail::Mail;
-use SimpleMail::Mail::Infra::Sender::SendmailMock;
+use SimpleMail::Mailing::Domain::Mail;
+use SimpleMail::Mailing::Infra::Sender::SendmailMock;
 
 use Mouse;
 
@@ -100,11 +100,11 @@ sub send_mail {
 
     my $param = $req->parameters;
 
-    SimpleMail::Mail->new(
+    SimpleMail::Mailing::Domain::Mail->new(
         name  => decode_utf8($param->{name}),
         email => decode_utf8($param->{email}),
         msg   => decode_utf8($param->{msg}),
-        $ENV{USE_SENDMAIL_MOCK} ? (mail_sender => SimpleMail::Mail::Infra::Sender::SendmailMock->new) : (),
+        $ENV{USE_SENDMAIL_MOCK} ? (mail_sender => SimpleMail::Mailing::Infra::Sender::SendmailMock->new) : (),
     )->send;
 
     my $res = Plack::Response->new();
