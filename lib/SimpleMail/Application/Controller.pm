@@ -13,6 +13,7 @@ use URI;
 
 use SimpleMail::Presentation::HtmlRenderer;
 use SimpleMail::Mailing::Domain::Mail;
+use SimpleMail::Mailing::Domain::DeliveringService;
 use SimpleMail::Mailing::Infra::Sender::SendmailMock;
 
 use Mouse;
@@ -20,7 +21,18 @@ use Mouse;
 has html_renderer => (
     is      => 'ro',
     isa     => 'SimpleMail::Presentation::HtmlRenderer',
-    default => sub { SimpleMail::Presentation::HtmlRenderer->new }
+    default => sub { SimpleMail::Presentation::HtmlRenderer->new },
+);
+
+has mail_delivering_service => (
+    is => 'ro',
+    isa => 'SimpleMail::Mailing::Domain::DeliveringService',
+    default => sub {
+        SimpleMail::Mailing::Domain::DeliveringService->new(
+            # XXX 機能テスト用．スマートじゃない！！！
+            $ENV{USE_SENDMAIL_MOCK} ? (mail_sender => SimpleMail::Mailing::Infra::Sender::SendmailMock->new) : (),
+        );
+    },
 );
 
 no Mouse;
@@ -100,12 +112,12 @@ sub send_mail {
 
     my $param = $req->parameters;
 
-    SimpleMail::Mailing::Domain::Mail->new(
+    my $mail = SimpleMail::Mailing::Domain::Mail->new(
         name  => decode_utf8($param->{name}),
         email => decode_utf8($param->{email}),
         msg   => decode_utf8($param->{msg}),
-        $ENV{USE_SENDMAIL_MOCK} ? (mail_sender => SimpleMail::Mailing::Infra::Sender::SendmailMock->new) : (),
-    )->send;
+    );
+    $self->mail_delivering_service->deliver_mail({mail => $mail});
 
     my $res = Plack::Response->new();
 

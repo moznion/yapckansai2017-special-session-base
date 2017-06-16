@@ -1,5 +1,6 @@
 requires 'Plack';
 requires 'Mouse';
+requires 'Data::Validator';
 requires 'Log::Minimal';
 requires 'FormValidator::Lite';
 requires 'Router::Boom';

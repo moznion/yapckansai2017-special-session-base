@@ -5,6 +5,7 @@ use Encode qw/encode/;
 use FindBin;
 
 use SimpleMail::Mailing::Domain::Mail;
+use SimpleMail::Mailing::Domain::DeliveringService;
 use SimpleMail::Mailing::Infra::Sender::SendmailMock;
 
 use Test::More;
@@ -14,13 +15,15 @@ unlink $log_file;
 
 subtest 'should send mail successfully' => sub {
     my $mail = SimpleMail::Mailing::Domain::Mail->new(
-        name        => 'moznion',
-        email       => 'moznion@gmail.com',
-        msg         => 'Hello',
-        mail_sender => SimpleMail::Mailing::Infra::Sender::SendmailMock->new,
+        name  => 'moznion',
+        email => 'moznion@gmail.com',
+        msg   => 'Hello',
     );
 
-    $mail->send;
+    my $mail_delivering_service = SimpleMail::Mailing::Domain::DeliveringService->new(
+        mail_sender => SimpleMail::Mailing::Infra::Sender::SendmailMock->new,
+    );
+    $mail_delivering_service->deliver_mail({mail => $mail});
 
     my $body = $mail->body;
     my $encoded_body = encode('ISO-2022-JP', $body);
