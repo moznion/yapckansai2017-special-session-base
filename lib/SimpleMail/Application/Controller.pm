@@ -12,9 +12,9 @@ use FormValidator::Lite qw/Email/;
 use URI;
 
 use SimpleMail::Presentation::HtmlRenderer;
-use SimpleMail::Mailing::Domain::Mail;
-use SimpleMail::Mailing::Domain::DeliveringService;
-use SimpleMail::Mailing::Infra::Sender::SendmailMock;
+use SimpleMail::Domain::Model::Mail;
+use SimpleMail::Domain::Service::DeliveringService;
+use SimpleMail::Infra::MailSender::SendmailMock;
 
 use Mouse;
 
@@ -26,11 +26,11 @@ has html_renderer => (
 
 has mail_delivering_service => (
     is => 'ro',
-    isa => 'SimpleMail::Mailing::Domain::DeliveringService',
+    isa => 'SimpleMail::Domain::Service::DeliveringService',
     default => sub {
-        SimpleMail::Mailing::Domain::DeliveringService->new(
+        SimpleMail::Domain::Service::DeliveringService->new(
             # XXX 機能テスト用．スマートじゃない！！！
-            $ENV{USE_SENDMAIL_MOCK} ? (mail_sender => SimpleMail::Mailing::Infra::Sender::SendmailMock->new) : (),
+            $ENV{USE_SENDMAIL_MOCK} ? (mail_sender => SimpleMail::Infra::MailSender::SendmailMock->new) : (),
         );
     },
 );
@@ -112,7 +112,7 @@ sub send_mail {
 
     my $param = $req->parameters;
 
-    my $mail = SimpleMail::Mailing::Domain::Mail->new(
+    my $mail = SimpleMail::Domain::Model::Mail->new(
         name  => decode_utf8($param->{name}),
         email => decode_utf8($param->{email}),
         msg   => decode_utf8($param->{msg}),

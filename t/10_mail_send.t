@@ -4,9 +4,9 @@ use utf8;
 use Encode qw/encode/;
 use FindBin;
 
-use SimpleMail::Mailing::Domain::Mail;
-use SimpleMail::Mailing::Domain::DeliveringService;
-use SimpleMail::Mailing::Infra::Sender::SendmailMock;
+use SimpleMail::Domain::Model::Mail;
+use SimpleMail::Domain::Service::DeliveringService;
+use SimpleMail::Infra::MailSender::SendmailMock;
 
 use Test::More;
 
@@ -14,14 +14,14 @@ my $log_file = "$FindBin::Bin/../devtools/sendmail_mock.log";
 unlink $log_file;
 
 subtest 'should send mail successfully' => sub {
-    my $mail = SimpleMail::Mailing::Domain::Mail->new(
+    my $mail = SimpleMail::Domain::Model::Mail->new(
         name  => 'moznion',
         email => 'moznion@gmail.com',
         msg   => 'Hello',
     );
 
-    my $mail_delivering_service = SimpleMail::Mailing::Domain::DeliveringService->new(
-        mail_sender => SimpleMail::Mailing::Infra::Sender::SendmailMock->new,
+    my $mail_delivering_service = SimpleMail::Domain::Service::DeliveringService->new(
+        mail_sender => SimpleMail::Infra::MailSender::SendmailMock->new,
     );
     $mail_delivering_service->deliver_mail({mail => $mail});
 

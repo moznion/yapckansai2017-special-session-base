@@ -1,4 +1,4 @@
-package SimpleMail::Mailing::Domain::Mail;
+package SimpleMail::Domain::Model::Mail;
 use strict;
 use warnings;
 use utf8;

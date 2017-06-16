@@ -1,4 +1,4 @@
-package SimpleMail::Mailing::Domain::Sender;
+package SimpleMail::Domain::Service::MailSender;
 use strict;
 use warnings;
 use utf8;

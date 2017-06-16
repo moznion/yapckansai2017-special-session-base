@@ -1,11 +1,11 @@
-package SimpleMail::Mailing::Infra::Sender::Sendmail;
+package SimpleMail::Infra::MailSender::Sendmail;
 use strict;
 use warnings;
 use utf8;
 
 use Mouse;
 
-extends 'SimpleMail::Mailing::Domain::Sender';
+extends 'SimpleMail::Domain::Service::MailSender';
 
 override sendmail_cmd => sub { '/usr/sbin/sendmail' };
 
